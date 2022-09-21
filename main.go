@@ -63,26 +63,29 @@ func main() {
 		goto l610
 	}
 	sub340()
-
 l450:
 	m = bINPUTi("A NUMBER BETWEEN 1 AND 8 ")
-	if m < 1 || m > 8 || l_arr[m-1] > 7 {
+	if m < 1 || m > 8 {
 		fmt.Println("ILLEGAL MOVE, TRY AGAIN.")
 		goto l450
 	}
-	l_arr[m-1]++
 	l = l_arr[m-1]
-	b_str_arr[l_arr[m-1]-1][m-1] = "X"
+	if l > 7 {
+		fmt.Println("ILLEGAL MOVE, TRY AGAIN.")
+		goto l450
+	}
+	l_arr[m-1] = l + 1
+	l = l + 1
+	b_str_arr[l-1][m-1] = "X"
 	fmt.Println()
 	sub340()
 	p_str = x_str
 	sub1240()
 	for z = 1; z <= 4; z++ {
-		if s_arr[z-1] < 4 {
-			continue
+		if s_arr[z-1] >= 4 {
+			fmt.Print("Y O U   W I N !!!")
+			return
 		}
-		fmt.Print("Y O U   W I N !!!")
-		return
 	}
 l610:
 	m9 = 0
@@ -96,8 +99,8 @@ l610:
 		v = 1
 		p_str = o_str
 		w = 0
-	l690:
 		m = m4
+	l690:
 		sub1240()
 		for z1 = 1; z1 <= 4; z1++ {
 			n_arr[z1-1] = 0
@@ -188,9 +191,9 @@ func sub340() {
 }
 
 func sub1240() {
-	q_str = "X"
-	if p_str == "X" {
-		q_str = "O"
+	q_str = x_str
+	if p_str == x_str {
+		q_str = o_str
 	}
 	d2 = 1
 	d1 = 0
@@ -216,23 +219,27 @@ l1390:
 	c = 0
 	for k = 1; k <= 3; k++ {
 		m5 = m + k*d1
-		l1 = l_arr[m-1] - 1 + k*d2
+		l1 = l - 1 + k*d2
 		if m5 < 1 || l1 < 1 || m5 > 8 || l1 > 8 {
 			continue
 		}
 		b_str = b_str_arr[l1-1][m5-1]
 		if c == 0 {
-			if b_str == p_str {
-				s++
-				continue
-			}
-			c = 1
+			goto l1480
 		}
 		if b_str == q_str {
 			k = 3
-		} else {
-			t++
+			goto l1510
 		}
+		t = t + 1
+		goto l1510
+	l1480:
+		if b_str == p_str {
+			s = s + 1
+			goto l1510
+		}
+		c = 1
+	l1510:
 		continue
 	}
 	if d != 0 {
