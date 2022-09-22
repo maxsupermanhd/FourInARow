@@ -9,7 +9,12 @@ import (
 )
 
 var (
-	scanner = bufio.NewScanner(os.Stdin)
+	scanner     = bufio.NewScanner(os.Stdin)
+	iointerface = "std"
+	input       = make(chan string)
+	output      = func(str string) {
+		fmt.Print(str)
+	}
 
 	v_arr = []float64{1, 100, 500, 1e20, 1, 800, 4000, 1e20,
 		1, 75, 900, 1e18, 1, 450, 3000, 1e18}
@@ -28,27 +33,27 @@ var (
 )
 
 func main() {
-	fmt.Println("       FOUR IN A ROW")
-	fmt.Println("     CREATIVE COMPUTING")
-	fmt.Println("   MORRISTOWN, NEW JERSEY")
-	fmt.Println()
-	fmt.Println()
-	fmt.Println("THE GAME OF FOUR IN A ROW")
+	bPRINT("       FOUR IN A ROW\n")
+	bPRINT("     CREATIVE COMPUTING\n")
+	bPRINT("   MORRISTOWN, NEW JERSEY\n")
+	bPRINT("\n")
+	bPRINT("\n")
+	bPRINT("THE GAME OF FOUR IN A ROW\n")
 	for {
 		a_str = bINPUTs("DO YOU WANT INSTRUCTIONS ")
 		if a_str == "YES" {
-			fmt.Println("THE GAME CONSISTS OF STACKING X'S")
-			fmt.Println("AND O'S (THE COMPUTER HAS O) UNTIL")
-			fmt.Println("ONE OF THE PLAYERS GETS FOUR IN A")
-			fmt.Println("ROW VERTICALLY, HORIZONTALLY, OR ")
-			fmt.Println("DIAGONALLY.")
-			fmt.Println()
-			fmt.Println()
+			bPRINT("THE GAME CONSISTS OF STACKING X'S\n")
+			bPRINT("AND O'S (THE COMPUTER HAS O) UNTIL\n")
+			bPRINT("ONE OF THE PLAYERS GETS FOUR IN A\n")
+			bPRINT("ROW VERTICALLY, HORIZONTALLY, OR \n")
+			bPRINT("DIAGONALLY.\n")
+			bPRINT("\n")
+			bPRINT("\n")
 			break
 		} else if a_str == "NO" {
 			break
 		} else {
-			fmt.Println("YES OR NO")
+			bPRINT("YES OR NO\n")
 		}
 	}
 	for i = 1; i <= 8; i++ {
@@ -66,24 +71,24 @@ func main() {
 l450:
 	m = int64(bINPUTi("A NUMBER BETWEEN 1 AND 8 "))
 	if m < 1 || m > 8 {
-		fmt.Println("ILLEGAL MOVE, TRY AGAIN.")
+		bPRINT("ILLEGAL MOVE, TRY AGAIN.\n")
 		goto l450
 	}
 	l = l_arr[m-1]
 	if l > 7 {
-		fmt.Println("ILLEGAL MOVE, TRY AGAIN.")
+		bPRINT("ILLEGAL MOVE, TRY AGAIN.\n")
 		goto l450
 	}
 	l_arr[m-1] = l + 1
 	l = l + 1
 	b_str_arr[l-1][m-1] = "X"
-	fmt.Println()
+	bPRINT("\n")
 	sub340()
 	p_str = x_str
 	sub1240()
 	for z = 1; z <= 4; z++ {
 		if s_arr[z-1] >= 4 {
-			fmt.Print("Y O U   W I N !!!")
+			bPRINT("Y O U   W I N !!!\n")
 			return
 		}
 	}
@@ -92,7 +97,7 @@ l610:
 	v1 = 0
 	n1 = 1
 	for m4 = 1; m4 <= 8; m4++ {
-		// fmt.Println("TRACE ", c, d, d1, d2, i, i1, j, k, l, l1, m, m4, m5, m9, n, n1, s, t, v, v1, w, z, z1)
+		// bPRINT("TRACE ", c, d, d1, d2, i, i1, j, k, l, l1, m, m4, m5, m9, n, n1, s, t, v, v1, w, z, z\n1)
 		// 631 PRINT"TRACE ";C;D;D1;D2;I;I1;J;K;L;L1;M;M4;M5;M9;N;N1;S;T;V;V1;W;Z;Z1
 		l = l_arr[m4-1] + 1
 		if l > 8 {
@@ -155,12 +160,12 @@ l610:
 		m9 = m4
 	}
 	if m9 == 0 {
-		fmt.Println("T I E   G A M E ...")
+		bPRINT("T I E   G A M E ...\n")
 		return
 	}
 	m = m9
 l1130:
-	fmt.Println("COMPUTER PICKS COLUMN ", m)
+	bPRINT(fmt.Sprintf("COMPUTER PICKS COLUMN %d\n", m))
 	l = l_arr[m-1] + 1
 	l_arr[m-1] = l_arr[m-1] + 1
 	b_str_arr[l-1][m-1] = o_str
@@ -169,7 +174,7 @@ l1130:
 	sub1240()
 	for z = 1; z <= 4; z++ {
 		if s_arr[z-1] >= 4 {
-			fmt.Println("C O M P U T E R   W I N S !!!")
+			bPRINT("C O M P U T E R   W I N S !!!\n")
 			return
 		}
 	}
@@ -181,16 +186,16 @@ l1130:
 func sub340() {
 	for i = 8; i >= 1; i-- {
 		for j = 1; j <= 8; j++ {
-			fmt.Printf("  %v", b_str_arr[i-1][j-1])
+			bPRINT(fmt.Sprintf("  %v", b_str_arr[i-1][j-1]))
 		}
-		fmt.Println()
+		bPRINT("\n")
 	}
-	fmt.Println()
+	bPRINT("\n")
 	for i = 1; i <= 8; i++ {
-		fmt.Printf("  %d", i)
+		bPRINT(fmt.Sprintf("  %d", i))
 	}
-	fmt.Println()
-	fmt.Println()
+	bPRINT("\n")
+	bPRINT("\n")
 }
 
 func sub1240() {
@@ -258,21 +263,33 @@ l1390:
 }
 
 func bINPUTs(q string) string {
-	fmt.Print(q)
-	if !scanner.Scan() {
-		if scanner.Err() != nil {
-			panic(scanner.Err())
+	bPRINT(q)
+	if iointerface == "std" {
+		if !scanner.Scan() {
+			if scanner.Err() != nil {
+				panic(scanner.Err())
+			}
 		}
+		return scanner.Text()
 	}
-	return scanner.Text()
+	if iointerface == "js" {
+		bPRINT("\n")
+		return <-input
+	}
+	bPRINT("No input\n")
+	return "error"
 }
 
 func bINPUTi(q string) int {
 	ret, err := strconv.Atoi(bINPUTs(q))
 	if err != nil {
-		os.Exit(1)
+		return 0
 	}
 	return ret
+}
+
+func bPRINT(str string) {
+	output(str)
 }
 
 func bSGNi(value int64) int64 {
