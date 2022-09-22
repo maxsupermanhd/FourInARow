@@ -9,6 +9,8 @@ import (
 )
 
 var (
+	// begin crossplatform support
+
 	scanner     = bufio.NewScanner(os.Stdin)
 	iointerface = "std"
 	input       = make(chan string)
@@ -16,6 +18,8 @@ var (
 		fmt.Print(str)
 	}
 	exitfunc = os.Exit
+
+	// end crossplatform support
 
 	v_arr = []float64{1, 100, 500, 1e20, 1, 800, 4000, 1e20,
 		1, 75, 900, 1e18, 1, 450, 3000, 1e18}
@@ -263,6 +267,8 @@ l1390:
 	f_arr[z-1] = t
 }
 
+// begin crossplatform support
+
 func bINPUTs(q string) string {
 	bPRINT(q)
 	if iointerface == "std" {
@@ -292,6 +298,8 @@ func bINPUTi(q string) int {
 func bPRINT(str string) {
 	output(str)
 }
+
+// end crossplatform support
 
 func bSGNi(value int64) int64 {
 	if value == 0 {
