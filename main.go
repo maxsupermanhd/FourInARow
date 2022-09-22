@@ -14,17 +14,17 @@ var (
 	v_arr = []float64{1, 100, 500, 1e20, 1, 800, 4000, 1e20,
 		1, 75, 900, 1e18, 1, 450, 3000, 1e18}
 	b_str_arr                  = [8][8]string{}
-	l_arr                      = [8]int{}
-	s_arr                      = [4]int{}
-	f_arr                      = [4]int{}
-	n_arr                      = [4]int{}
+	l_arr                      = [8]int64{}
+	s_arr                      = [4]int64{}
+	f_arr                      = [4]int64{}
+	n_arr                      = [4]int64{}
 	p_str, q_str, a_str, b_str string
 	x_str                      = "X"
 	o_str                      = "O"
-	l, m, z, d1, d2, d         int
-	s, t, c, m9, v1, n1        int
-	m4, z1, v, w, i, n         int
-	i1, k, m5, l1, j           int
+	c, d, d1, d2, i, i1        int64
+	j, k, l, l1, m, m4         int64
+	m5, m9, n, n1, s, t        int64
+	v, v1, w, z, z1            int64
 )
 
 func main() {
@@ -51,20 +51,20 @@ func main() {
 			fmt.Println("YES OR NO")
 		}
 	}
-	for i = 0; i < 8; i++ {
-		for j = 0; j < 8; j++ {
-			b_str_arr[i][j] = "-"
+	for i = 1; i <= 8; i++ {
+		for j = 1; j <= 8; j++ {
+			b_str_arr[i-1][j-1] = "-"
 		}
 	}
-	for z1 = 0; z1 < 8; z1++ {
-		l_arr[z1] = 0
+	for z1 = 1; z1 <= 8; z1++ {
+		l_arr[z1-1] = 0
 	}
 	if bINPUTs("DO YOU WANT TO GO FIRST ") == "NO" {
 		goto l610
 	}
 	sub340()
 l450:
-	m = bINPUTi("A NUMBER BETWEEN 1 AND 8 ")
+	m = int64(bINPUTi("A NUMBER BETWEEN 1 AND 8 "))
 	if m < 1 || m > 8 {
 		fmt.Println("ILLEGAL MOVE, TRY AGAIN.")
 		goto l450
@@ -92,6 +92,8 @@ l610:
 	v1 = 0
 	n1 = 1
 	for m4 = 1; m4 <= 8; m4++ {
+		// fmt.Println("TRACE ", c, d, d1, d2, i, i1, j, k, l, l1, m, m4, m5, m9, n, n1, s, t, v, v1, w, z, z1)
+		// 631 PRINT"TRACE ";C;D;D1;D2;I;I1;J;K;L;L1;M;M4;M5;M9;N;N1;S;T;V;V1;W;Z;Z1
 		l = l_arr[m4-1] + 1
 		if l > 8 {
 			continue
@@ -120,7 +122,7 @@ l610:
 			n = n_arr[i-1] - 1
 			if n != -1 {
 				i1 = 8*w + 4*bSGNi(n) + i
-				v = v + int(v_arr[i1-1]) + n*int(v_arr[8*w+i-1])
+				v = int64(float64(v) + v_arr[i1-1] + float64(n)*v_arr[8*w+i-1])
 			}
 		}
 		if w != 1 {
@@ -140,16 +142,17 @@ l610:
 		if v < v1 {
 			continue
 		}
-		if v == v1 {
-			n1 = n1 + 1
-			if rand.Float32() > float32(1)/float32(n1) {
-				continue
-			}
-			v1 = v
-			m9 = m4
-		} else {
+		if v > v1 {
 			n1 = 1
+			goto l1060
 		}
+		n1 = n1 + 1
+		if rand.Float32() > float32(1)/float32(n1) {
+			continue
+		}
+	l1060:
+		v1 = v
+		m9 = m4
 	}
 	if m9 == 0 {
 		fmt.Println("T I E   G A M E ...")
@@ -219,7 +222,7 @@ l1390:
 	c = 0
 	for k = 1; k <= 3; k++ {
 		m5 = m + k*d1
-		l1 = l - 1 + k*d2
+		l1 = l + k*d2
 		if m5 < 1 || l1 < 1 || m5 > 8 || l1 > 8 {
 			continue
 		}
@@ -227,6 +230,7 @@ l1390:
 		if c == 0 {
 			goto l1480
 		}
+	l1450:
 		if b_str == q_str {
 			k = 3
 			goto l1510
@@ -239,6 +243,7 @@ l1390:
 			goto l1510
 		}
 		c = 1
+		goto l1450
 	l1510:
 		continue
 	}
@@ -246,7 +251,7 @@ l1390:
 		d = 0
 		d1 = -d1
 		d2 = -d2
-		goto l1390 // I hate this
+		goto l1390
 	}
 	s_arr[z-1] = s
 	f_arr[z-1] = t
@@ -270,10 +275,10 @@ func bINPUTi(q string) int {
 	return ret
 }
 
-func bSGNi(v int) int {
-	if v == 0 {
+func bSGNi(value int64) int64 {
+	if value == 0 {
 		return 0
-	} else if v > 0 {
+	} else if value > 0 {
 		return 1
 	}
 	return -1
