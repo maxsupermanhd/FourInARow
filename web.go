@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"syscall/js"
 )
 
@@ -21,7 +22,13 @@ func textinputevent(this js.Value, args []js.Value) interface{} {
 	return nil
 }
 
+func shutdownjsinput(code int) {
+	js.Global().Get("document").Call("getElementById", "sendinput").Set("disabled", true)
+	os.Exit(code)
+}
+
 func init() {
 	js.Global().Get("document").Call("getElementById", "sendinput").Call("addEventListener", "keydown", js.FuncOf(textinputevent))
 	output = jsoutput
+	exitfunc = shutdownjsinput
 }

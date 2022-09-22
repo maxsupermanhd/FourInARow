@@ -15,6 +15,7 @@ var (
 	output      = func(str string) {
 		fmt.Print(str)
 	}
+	exitfunc = os.Exit
 
 	v_arr = []float64{1, 100, 500, 1e20, 1, 800, 4000, 1e20,
 		1, 75, 900, 1e18, 1, 450, 3000, 1e18}
@@ -89,7 +90,7 @@ l450:
 	for z = 1; z <= 4; z++ {
 		if s_arr[z-1] >= 4 {
 			bPRINT("Y O U   W I N !!!\n")
-			return
+			exitfunc(0)
 		}
 	}
 l610:
@@ -175,7 +176,7 @@ l1130:
 	for z = 1; z <= 4; z++ {
 		if s_arr[z-1] >= 4 {
 			bPRINT("C O M P U T E R   W I N S !!!\n")
-			return
+			exitfunc(0)
 		}
 	}
 	goto l450
@@ -267,7 +268,7 @@ func bINPUTs(q string) string {
 	if iointerface == "std" {
 		if !scanner.Scan() {
 			if scanner.Err() != nil {
-				panic(scanner.Err())
+				exitfunc(0)
 			}
 		}
 		return scanner.Text()
