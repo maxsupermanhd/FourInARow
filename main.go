@@ -11,13 +11,13 @@ import (
 var (
 	// begin crossplatform support
 
-	scanner     = bufio.NewScanner(os.Stdin)
-	iointerface = "std"
-	input       = make(chan string)
-	output      = func(str string) {
-		fmt.Print(str)
-	}
-	exitfunc = os.Exit
+	scanner      = bufio.NewScanner(os.Stdin)
+	iointerface  = "std"
+	input        = make(chan string)
+	input_batch  = []string{}
+	output_batch = []string{}
+	output       = fmt.Print
+	exitfunc     = os.Exit
 
 	// end crossplatform support
 
@@ -157,7 +157,7 @@ l610:
 			goto l1060
 		}
 		n1 = n1 + 1
-		if rand.Float32() > float32(1)/float32(n1) {
+		if bRND(1) > float32(1)/float32(n1) {
 			continue
 		}
 	l1060:
@@ -283,8 +283,20 @@ func bINPUTs(q string) string {
 		bPRINT("\n")
 		return <-input
 	}
-	bPRINT("No input\n")
-	return "error"
+	if iointerface == "tests" {
+		if len(input_batch) > 0 {
+			out := input_batch[0]
+			if len(input_batch) > 1 {
+				input_batch = input_batch[0:]
+			} else {
+				input_batch = []string{}
+			}
+			return out
+		} else {
+			bPRINT("No input!!!\n")
+		}
+	}
+	return ""
 }
 
 func bINPUTi(q string) int {
@@ -296,7 +308,15 @@ func bINPUTi(q string) int {
 }
 
 func bPRINT(str string) {
-	output(str)
+	if iointerface != "tests" {
+		output(str)
+	} else {
+		output_batch = append(output_batch, str)
+	}
+}
+
+func bRND(i int) float32 {
+	return rand.Float32()
 }
 
 // end crossplatform support
