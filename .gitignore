@@ -3,3 +3,4 @@ FourInARow-arm
 FourInARow.exe
 FourInARow.wasm
 www/wasm_exec.js
+testing.bas

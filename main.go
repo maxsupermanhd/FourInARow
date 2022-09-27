@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math/rand"
 	"os"
 	"strconv"
 )
@@ -16,8 +15,10 @@ var (
 	input        = make(chan string)
 	input_batch  = []string{}
 	output_batch = []string{}
-	output       = fmt.Print
-	exitfunc     = os.Exit
+	output       = func(str string) {
+		fmt.Print(str)
+	}
+	exitfunc = os.Exit
 
 	// end crossplatform support
 
@@ -157,7 +158,7 @@ l610:
 			goto l1060
 		}
 		n1 = n1 + 1
-		if bRND(1) > float32(1)/float32(n1) {
+		if bRND(1) > 1/float64(n1) {
 			continue
 		}
 	l1060:
@@ -313,10 +314,6 @@ func bPRINT(str string) {
 	} else {
 		output_batch = append(output_batch, str)
 	}
-}
-
-func bRND(i int) float32 {
-	return rand.Float32()
 }
 
 // end crossplatform support
