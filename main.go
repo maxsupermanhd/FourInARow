@@ -11,13 +11,14 @@ import (
 var (
 	// begin crossplatform support
 
-	scanner      = bufio.NewScanner(os.Stdin)
-	iointerface  = "std"
-	input        = make(chan string)
-	input_batch  = []string{}
-	output_batch = []string{}
-	output       = fmt.Print
-	exitfunc     = os.Exit
+	scanner       = bufio.NewScanner(os.Stdin)
+	iointerface   = "std"
+	input         = make(chan string)
+	input_batch   = []string{}
+	output_batch  = []string{}
+	output        = fmt.Print
+	rand_override = []float32{}
+	exitfunc      = os.Exit
 
 	// end crossplatform support
 
@@ -316,8 +317,20 @@ func bPRINT(str string) {
 	}
 }
 
+var rand_override_i = 0
+
 func bRND(i int) float32 {
-	return rand.Float32()
+	if len(rand_override) > 0 {
+		if len(rand_override) > rand_override_i {
+			defer func() { rand_override_i++ }()
+			return rand_override[rand_override_i]
+		} else {
+			rand_override_i = 0
+			return rand_override[rand_override_i]
+		}
+	} else {
+		return rand.Float32()
+	}
 }
 
 // end crossplatform support
