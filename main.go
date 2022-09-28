@@ -38,14 +38,15 @@ var (
 )
 
 func main() {
-	bPRINT("       FOUR IN A ROW\n")
-	bPRINT("     CREATIVE COMPUTING\n")
-	bPRINT("   MORRISTOWN, NEW JERSEY\n")
+	bPRINT("                      FOUR IN A ROW\n")
+	bPRINT("                    CREATIVE COMPUTING\n")
+	bPRINT("                  MORRISTOWN, NEW JERSEY\n")
+	bPRINT("\n")
 	bPRINT("\n")
 	bPRINT("\n")
 	bPRINT("THE GAME OF FOUR IN A ROW\n")
 	for {
-		a_str = bINPUTs("DO YOU WANT INSTRUCTIONS ")
+		a_str = bINPUTs("DO YOU WANT INSTRUCTIONS? ")
 		if a_str == "YES" {
 			bPRINT("THE GAME CONSISTS OF STACKING X'S\n")
 			bPRINT("AND O'S (THE COMPUTER HAS O) UNTIL\n")
@@ -69,12 +70,12 @@ func main() {
 	for z1 = 1; z1 <= 8; z1++ {
 		l_arr[z1-1] = 0
 	}
-	if bINPUTs("DO YOU WANT TO GO FIRST ") == "NO" {
+	if bINPUTs("DO YOU WANT TO GO FIRST? ") == "NO" {
 		goto l610
 	}
 	sub340()
 l450:
-	m = int64(bINPUTi("A NUMBER BETWEEN 1 AND 8 "))
+	m = int64(bINPUTi("A NUMBER BETWEEN 1 AND 8? "))
 	if m < 1 || m > 8 {
 		bPRINT("ILLEGAL MOVE, TRY AGAIN.\n")
 		goto l450
@@ -170,7 +171,7 @@ l610:
 	}
 	m = m9
 l1130:
-	bPRINT(fmt.Sprintf("COMPUTER PICKS COLUMN %d\n", m))
+	bPRINT(fmt.Sprintf("COMPUTER PICKS COLUMN  %d \n\n", m))
 	l = l_arr[m-1] + 1
 	l_arr[m-1] = l_arr[m-1] + 1
 	b_str_arr[l-1][m-1] = o_str
@@ -195,11 +196,11 @@ func sub340() {
 		}
 		bPRINT("\n")
 	}
-	bPRINT("\n")
+	// bPRINT("\n")
 	for i = 1; i <= 8; i++ {
 		bPRINT(fmt.Sprintf("  %d", i))
 	}
-	bPRINT("\n")
+	bPRINT(" \n")
 	bPRINT("\n")
 }
 
