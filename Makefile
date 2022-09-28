@@ -1,4 +1,4 @@
-.PHONY: all clean windows linux wasm
+.PHONY: all clean windows linux wasm arm test
 
 all: linux windows wasm
 
@@ -15,6 +15,9 @@ wasm: main.go web.go
 
 arm: main.go
 	CC=arm-linux-gnueabi-gcc CGO_ENABLED=1 GOOS=linux GOARM=7 GOARCH=arm go build -o FourInARow-arm
+
+test: vintbas
+	go test -run=TestMain
 
 clean:
 	rm FourInARow FourInARow.exe FourInARow.wasm FourInARow-arm

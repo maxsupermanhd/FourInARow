@@ -271,6 +271,8 @@ l1390:
 
 // begin crossplatform support
 
+var input_batch_i = 0
+
 func bINPUTs(q string) string {
 	bPRINT(q)
 	if iointerface == "std" {
@@ -287,13 +289,14 @@ func bINPUTs(q string) string {
 	}
 	if iointerface == "tests" {
 		if len(input_batch) > 0 {
-			out := input_batch[0]
-			if len(input_batch) > 1 {
-				input_batch = input_batch[0:]
+			if len(input_batch) > input_batch_i {
+				out := input_batch[input_batch_i]
+				input_batch_i++
+				return out
 			} else {
-				input_batch = []string{}
+				input_batch_i = 0
+				return input_batch[input_batch_i]
 			}
-			return out
 		} else {
 			bPRINT("No input!!!\n")
 		}
